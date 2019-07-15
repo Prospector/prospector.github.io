@@ -1,5 +1,292 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
-Hello World!
+    <title>prospector.github.io</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
+
+<body id="light" onload="addMods()">
+    <div class="header">
+        <button style="float: right" type="button" class="btn btn-primary"
+            onclick="localStorage.setItem('theme', (localStorage.getItem('theme') || 'dark') === 'dark' ? 'light' : 'dark'); localStorage.getItem('theme') === 'dark' ? document.querySelector('body').id='dark' : document.querySelector('body').id='light'">
+            Theme toggle
+        </button>
+        <img class="logo" src="prospector.svg">
+        <div class="title">propsector.github.io</div>
+    </div>
+
+    <section class="scrollfix">
+        <div id="mod-holder" class="modpage container">
+            <div id="loading-text" class="status-text">
+                <img src="loading.gif">
+                Loading projects...
+            </div>
+            <div id="failed-text" class="status-text hidden">
+                <img src="fail.svg">
+                Failed to load projects
+                <p>{$error}</p>
+            </div>
+            <div id="modcard-template" class="modcard hidden">
+                <div class="main-pane">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-auto">
+                                <a class="icon-background right-margin" href="#{$id}">
+                                    <img class="icon" src="{$icon}">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <div class="text-block right-margin">
+                                    <h3 class="bold line-clamp-1">{$modname}</h3>
+                                    <h5 id="authors" class="line-clamp-1">by 
+                                        <a class="author" href="{$authorLink}" target="_blank">{$authorName}</a>
+                                    </h5>
+                                    <div class="summary line-clamp-2">{$summary}</div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="section d-none d-md-block">
+                                    <div class="centered-section width-170 padding-left padding-right">
+                                        <div class="stat">
+                                            <img src="download.svg">
+                                            <h5 class="line-clamp-1">{$downloadCount} Downloads</h5>
+                                        </div>
+                                        <div class="stat">
+                                            <img src="recent.svg">
+                                            <h5 class="line-clamp-1">Updated {$updateDate}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="section d-none d-md-block">
+                                    <div class="centered-section download-section padding-left width-170">
+                                        <a class="button line-clamp-1" href="{$downloadUrl}">
+                                            <img src="download.svg">
+                                            Download
+                                        </a>
+                                        <h5 class="info">{$downloadGameVersion}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lower-pane d-block d-md-none">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm text-center stat align-middle">
+                                <img src="download.svg">
+                                <h5>{$downloadCount} Downloads</h5>
+                            </div>
+                            <div class="col-sm text-center stat align-middle">
+                                <img src="recent.svg">
+                                <h5>Updated {$updateDate}</h5>
+                            </div>
+                            <div class="col-sm text-center download-section">
+                                <a href="{$downloadUrl}">
+                                    <div class="button line-clamp-1">
+                                        <img src="download.svg">
+                                        Download
+                                    </div>
+                                </a>
+                                <h5 class="info">For {$game} {$downloadGameVersion}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="modal-container"></div>
+        <div class="modal fade" id="template-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <img class="icon" src="{$icon}">
+                        <h5 class="modal-title" id="exampleModalLabel">{$modname}</h5>
+                        <div class="exit-section">
+                            <button type="button" class="exit" data-dismiss="modal">
+                                <img class="exit-icon" src="exit.svg">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        let projectInfo
+        let curseData = new Map()
+
+        function addMods() {
+            fetch('https://raw.githubusercontent.com/Prospector/modcollector/master/mods.json')
+                .then(res => res.json())
+                .then((out) => {
+                    projectInfo = out
+                    var curseIds = []
+                    var idMap = new Map()
+                    for (var i = 0; i < out.length; i++) {
+                        curseIds[i] = out[i].curseforge
+                        idMap.set(out[i].curseforge, out[i].id)
+                    }
+                    fetch('https://curse.nikky.moe/graphql', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ query: '{ addons(gameId: 432, section: "Mods", idList: [' + curseIds.toString() + ']) { gameName id name summary authors { name, url } dateModified downloadCount attachments(isDefault: true) { thumbnailUrl } defaultFileId latestFiles { id gameVersion downloadUrl releaseType } } }' })
+                    })
+                        .then(r => r.json())
+                        .then(data => {
+                            for (const addon of data.data.addons) {
+                                curseData.set(idMap.get(addon.id), addon)
+                            }
+                            addMod(out[0], 0)
+                            if (window.location.hash) {
+                                openOrCreateModal(window.location.hash)
+                            }
+                            window.onhashchange = function () {
+                                if (window.location.hash == '') {
+                                    $('.modal.show .exit-section .exit').click();
+                                } else {
+                                    openOrCreateModal(window.location.hash)
+                                }
+                            }
+                        }).catch(err => {
+                            failedToLoad("Error loading curse data: [" + err + "]")
+                            console.error(err)
+                        });
+                }).catch(err => {
+                    failedToLoad("Error loading mods.json: [" + err + "]")
+                    console.error(err)
+                })
+        }
+        function addMod(mod, i) {
+            var id = mod.id;
+            var div = document.createElement("div")
+            div.innerHTML = document.getElementById("modcard-template").innerHTML
+            fillData(div, id)
+            div.className = "modcard from-js"
+            var loadingText = document.getElementById("loading-text");
+            loadingText.classList.add("hidden");
+            document.getElementById("mod-holder").appendChild(div)
+            setTimeout(() => div.classList.add("animate"), 50)
+            var next = i + 1
+            if (projectInfo[next] != null) {
+                setTimeout(() => addMod(projectInfo[next], next), 40)
+            }
+        }
+
+        function fillData(div, id) {
+            var name = id
+            var icon, summary, authorName, authorLink, downloadCount, game, downloadUrl, downloadGameVersion, updateDate
+            if (curseData.has(id)) {
+                var data = curseData.get(id)
+                name = data.name
+                summary = data.summary
+                for (var j = 0; j < data.attachments.length; j++) {
+                    icon = data.attachments[0].thumbnailUrl
+                }
+                authorName = data.authors[0].name
+                authorLink = data.authors[0].url
+                downloadCount = data.downloadCount
+                updateDate = new Date(data.dateModified)
+                game = data.gameName
+                var defaultFileId = data.defaultFileId
+                for (var file of data.latestFiles) {
+                    if (file.id == defaultFileId) {
+                        downloadUrl = file.downloadUrl
+                        downloadGameVersion = file.gameVersion[file.gameVersion.length - 1]
+                        break;
+                    }
+                }
+            }
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            var updateDateFormatted = updateDate.toLocaleDateString('en-US', options)
+            div.innerHTML = div.innerHTML
+                .replace(/{\$modname}/g, name)
+                .replace(/{\$icon}/g, icon)
+                .replace(/{\$summary}/g, summary)
+                .replace(/{\$authorName}/g, authorName)
+                .replace(/{\$authorLink}/g, authorLink)
+                .replace(/{\$downloadCount}/g, shortenNumber(downloadCount).toLocaleString('en-US'))
+                .replace(/{\$updateDate}/g, updateDateFormatted)
+                .replace(/{\$game}/g, game)
+                .replace(/{\$downloadUrl}/g, downloadUrl)
+                .replace(/{\$downloadGameVersion}/g, downloadGameVersion)
+                .replace(/{\$id}/g, id)
+        }
+        function shortenNumber(value) {
+            let newValue = value
+            const suffixes = ["", "K", "M", "B", "T"]
+            let suffixNum = 0
+            while (newValue >= 1000) {
+                newValue /= 1000
+                suffixNum++
+            }
+
+            newValue = newValue.toPrecision(3)
+            newValue = parseFloat(newValue)
+
+            if (suffixNum > 4) {//give up, accept this number is ridiculous
+                return value;
+            }
+            newValue += suffixes[suffixNum]
+            return newValue
+        }
+        function openOrCreateModal(hash) {
+            var modalId = "modal-" + hash.substring(1, hash.length)
+            if (!document.getElementById(modalId)) {
+                createModal(modalId)
+            }
+            openModal(modalId)
+        }
+        function openModal(modalId) {
+            $("#" + modalId).modal('show')
+            $("#" + modalId).on('hide.bs.modal', function (e) {
+                if (window.history.replaceState) {
+                    window.history.replaceState({}, null, window.location.href.split("#")[0])
+                }
+            })
+        }
+        function createModal(modalId) {
+            var id = modalId.split("modal-")[1]
+            var div = document.createElement("div")
+            var template = document.getElementById("template-modal")
+            div.classList = template.classList
+            div.tabIndex = template.tabIndex
+            div.setAttribute("role", template.getAttribute("role"));
+            div.setAttribute("aria-labelledby", template.getAttribute("aria-labelledby"));
+            div.setAttribute("aria-hidden", template.getAttribute("aria-hidden"));
+            div.innerHTML = template.innerHTML
+            fillData(div, id)
+            div.id = modalId
+            document.getElementById("modal-container").appendChild(div)
+        }
+        function failedToLoad(error) {
+            var loadingText = document.getElementById("loading-text");
+            loadingText.classList.add("hidden");
+            var failedText = document.getElementById("failed-text");
+            failedText.innerHTML = failedText.innerHTML.replace(/{\$error}/g, error)
+            failedText.classList.remove("hidden");
+        }
+    </script>
+</footer>
+
+</html>
