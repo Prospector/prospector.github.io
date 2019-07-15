@@ -6,34 +6,36 @@
 
 #light {
     --accent-color: rgb(41, 97, 252);
-    --translucent-accent-color: rgba(41, 97, 252, 0.11);
+    --translucent-accent-color: rgba(41, 97, 252, 0.2);
     --accent-text-color: rgb(255, 255, 255);
     --accent-svg-invert: 100%;
     --darker-accent-color: rgb(30, 81, 221);
     --focus-accent-color: rgb(29, 66, 168);
     --background-color: rgb(255, 255, 255);
     --card-background-color: rgb(253, 253, 253);
-    --icon-background-color: var(--background-color);
-    --icon-border-color: transparent;
     --border-color: rgb(224, 224, 224);
+    --codeblock-background-color: rgb(238, 238, 238);
+    --codeblock-border-color: rgb(218, 218, 218);
     --icon-invert: 0%;
     --body-color: #252525;
+    --subtle-link-color: #6b6b6b;
 }
 
 #dark {
     --accent-color: rgb(41, 97, 252);
-    --translucent-accent-color: rgba(41, 97, 252, 0.11);
+    --translucent-accent-color: rgba(41, 97, 252, 0.2);
     --accent-text-color: rgb(255, 255, 255);
     --accent-svg-invert: 100%;
     --darker-accent-color: rgb(30, 81, 221);
     --focus-accent-color: rgb(29, 66, 168);
     --background-color: rgb(19, 20, 24);
     --card-background-color: rgb(22, 24, 26);
-    --icon-background-color: var(--card-background-color);
-    --icon-border-color: var(--border-color);
     --border-color: rgb(37, 40, 43);
+    --codeblock-background-color: rgb(26, 28, 34);
+    --codeblock-border-color: rgb(49, 51, 58);
     --icon-invert: 100%;
     --body-color: #dbdbdb;
+    --subtle-link-color: #b1b1b1;
 }
 
 .scrollfix {
@@ -63,7 +65,6 @@ body{
 .header .logo{
     max-width:22px;
     filter: invert(var(--accent-svg-invert));
-    float: left;
     margin-right: 5px;
 }
   
@@ -91,7 +92,6 @@ body{
 }
 
 .modcard .main-pane {
-    height: 100px;
     overflow: hidden;
 }
 
@@ -149,14 +149,8 @@ body{
 }
 
 .modcard .icon-background{
-    background-color: var(--icon-background-color);
-    border: solid 1px var(--icon-border-color);
-    width: 100px;
-    height: 100px;
-    border-radius: var(--rounded-radius);
-    background-clip: content-box, border-box;
-    float: left;
-    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.08);
+    width: 80px;
+    height: 80px;
 }
 
 .modcard .icon-background:focus{
@@ -167,10 +161,10 @@ body{
     filter: brightness(60%);
 }
 
-.modcard .icon{
+.mod .icon{
+    border-radius: var(--rounded-radius);
     width: inherit;
     height: inherit;
-    border-radius: inherit;
     background-clip: inherit;
     transition: filter 0.4s;
 }
@@ -184,12 +178,10 @@ body{
 }
 
 .modcard .text-block{
-    height: 100px;
 }
 
 .modcard .section{
-    float:right;
-    height: 100px;
+    height: 100%;
     border-left: solid 1px var(--border-color);
 }
 
@@ -209,7 +201,7 @@ body{
 }
 
 .modcard .section .width-170{
-    width: 170px;
+    width: 200px;
 }
 
 .modcard .stat {
@@ -218,20 +210,24 @@ body{
 
 .modcard .stat h5 {
     font-size: 14px;
+    display: inline;
 }
 
 .modcard .stat img {
     filter: invert(var(--icon-invert));
+    padding-right: 2px;
     width: 24px;
 }
 
 .modcard h3 {
-    margin-bottom: 0px;
     font-size: 22px;
 }
 .modcard h5 {
-    margin-bottom: 0px;
-    font-size: 18px;
+    font-size: 15px;
+}
+
+.inline {
+    display: inline;
 }
 
 .bold {
@@ -248,7 +244,6 @@ body{
 }
 
 .modcard .download-section .info {
-    font-family: "Roboto Condensed";
     border-radius: calc(var(--rounded-radius) * 100);
     font-size: 12px;
     background-color: var(--translucent-accent-color);
@@ -271,6 +266,7 @@ a {
 
 a:hover{
     color: var(--darker-accent-color);
+    text-decoration: none;
     text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -278,6 +274,18 @@ a:focus{
     color: var(--focus-accent-color);
     text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
     outline: none;
+}
+
+a.subtle {
+    color: var(--subtle-link-color);
+}
+
+a.subtle:hover{
+    color: var(--darker-accent-color);
+}
+
+a.subtle:focus{
+    color: var(--focus-accent-color);
 }
 
 .animate{
@@ -373,6 +381,8 @@ a:focus{
 
 .modal-header {
     border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
 }
 
 .modal-header .exit-section {
@@ -406,10 +416,20 @@ a:focus{
 
 .modal-header .icon {
     width: 50px;
+    margin-right: 10px;
 }
 
 .modal-header .modal-title{
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+    font-size: 28px;
+    line-height: 100%;
+}
+
+.description pre{
+    border-radius: 5px;
+    color: var(--body-color);
+    border: solid 1px var(--codeblock-border-color);
+    background-color: var(--codeblock-background-color);
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

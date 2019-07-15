@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body id="light" onload="addMods()">
+<body id="dark" onload="addMods()">
     <div class="header">
         <button style="float: right" type="button" class="btn btn-primary"
             onclick="localStorage.setItem('theme', (localStorage.getItem('theme') || 'dark') === 'dark' ? 'light' : 'dark'); localStorage.getItem('theme') === 'dark' ? document.querySelector('body').id='dark' : document.querySelector('body').id='light'">
             Theme toggle
         </button>
         <img class="logo" src="prospector.svg">
-        <div class="title">propsector.github.io</div>
+        <div class="title">propskepteor.github.io</div>
     </div>
 
     <section class="scrollfix">
@@ -30,7 +30,7 @@
                 Failed to load projects
                 <p>{$error}</p>
             </div>
-            <div id="modcard-template" class="modcard hidden">
+            <div id="modcard-template" class="modcard mod hidden">
                 <div class="main-pane">
                     <div class="container">
                         <div class="row">
@@ -41,9 +41,11 @@
                             </div>
                             <div class="col">
                                 <div class="text-block right-margin">
-                                    <h3 class="bold line-clamp-1">{$modname}</h3>
-                                    <h5 id="authors" class="line-clamp-1">by 
-                                        <a class="author" href="{$authorLink}" target="_blank">{$authorName}</a>
+                                    <a href="#{$id}">
+                                        <h3 class="inline bold line-clamp-1">{$modname}</h3>
+                                    </a>
+                                    <h5 id="authors" class="inline line-clamp-1">by
+                                        <a class="author subtle" href="{$authorLink}" target="_blank">{$authorName}</a>
                                     </h5>
                                     <div class="summary line-clamp-2">{$summary}</div>
                                 </div>
@@ -94,7 +96,7 @@
                                         Download
                                     </div>
                                 </a>
-                                <h5 class="info">For {$game} {$downloadGameVersion}</h5>
+                                <h5 class="info">{$downloadGameVersion}</h5>
                             </div>
                         </div>
                     </div>
@@ -103,21 +105,20 @@
         </div>
         </div>
         <div id="modal-container"></div>
-        <div class="modal fade" id="template-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+        <div class="modal fade" id="template-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content mod">
                     <div class="modal-header">
                         <img class="icon" src="{$icon}">
-                        <h5 class="modal-title" id="exampleModalLabel">{$modname}</h5>
+                        <h5 class="modal-title">{$modname}</h5>
                         <div class="exit-section">
                             <button type="button" class="exit" data-dismiss="modal">
                                 <img class="exit-icon" src="exit.svg">
                             </button>
                         </div>
                     </div>
-                    <div class="modal-body">
-                        ...
+                    <div id="{$id}-description" class="modal-body description">
+
                     </div>
                 </div>
             </div>
@@ -180,9 +181,12 @@
         function addMod(mod, i) {
             var id = mod.id;
             var div = document.createElement("div")
-            div.innerHTML = document.getElementById("modcard-template").innerHTML
+            var template = document.getElementById("modcard-template");
+            div.innerHTML = template.innerHTML
+            div.classList = template.classList
+            div.classList.remove("hidden")
             fillData(div, id)
-            div.className = "modcard from-js"
+            div.classList.add("from-js")
             var loadingText = document.getElementById("loading-text");
             loadingText.classList.add("hidden");
             document.getElementById("mod-holder").appendChild(div)
@@ -276,6 +280,13 @@
             div.setAttribute("aria-hidden", template.getAttribute("aria-hidden"));
             div.innerHTML = template.innerHTML
             fillData(div, id)
+            fetch('https://curse.nikky.moe/api/addon/' + curseData.get(id).id + '/description').then((res) => {
+                return res.text();
+            }).then(out => {
+                var desc = document.createElement("div")
+                desc.innerHTML = out
+                document.getElementById(id + "-description").appendChild(desc)
+            })
             div.id = modalId
             document.getElementById("modal-container").appendChild(div)
         }
