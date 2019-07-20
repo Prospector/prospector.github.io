@@ -8,7 +8,7 @@
     --accent-color: rgb(41, 97, 252);
     --translucent-accent-color: rgba(41, 97, 252, 0.2);
     --accent-text-color: rgb(255, 255, 255);
-    --accent-svg-invert: 100%;
+    --accent-icon-invert: 100%;
     --darker-accent-color: rgb(30, 81, 221);
     --focus-accent-color: rgb(29, 66, 168);
     --background-color: rgb(255, 255, 255);
@@ -19,13 +19,16 @@
     --icon-invert: 0%;
     --body-color: #252525;
     --subtle-link-color: #6b6b6b;
+    --selection-color: rgba(8, 74, 255, 0.733);
+    --selection-color-icon-invert: rgba(8, 74, 255, 0.733);
+    --selection-color-accent-icon-invert: rgba(247, 181, 0, 0.733);
 }
 
 #dark {
     --accent-color: rgb(41, 97, 252);
     --translucent-accent-color: rgba(41, 97, 252, 0.2);
     --accent-text-color: rgb(255, 255, 255);
-    --accent-svg-invert: 100%;
+    --accent-icon-invert: 100%;
     --darker-accent-color: rgb(30, 81, 221);
     --focus-accent-color: rgb(29, 66, 168);
     --background-color: rgb(19, 20, 24);
@@ -36,6 +39,9 @@
     --icon-invert: 100%;
     --body-color: #dbdbdb;
     --subtle-link-color: #b1b1b1;
+    --selection-color: rgba(102, 143, 255, 0.733);
+    --selection-color-icon-invert: rgba(153, 112, 0, 0.733);
+    --selection-color-accent-icon-invert: rgba(153, 112, 0, 0.733);
 }
 
 .scrollfix {
@@ -52,30 +58,63 @@ body{
     padding-right:0 !important;
 }
 
-.header{
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: var(--accent-color);
-    padding: 14px;
     width: 100vw;
-    height: 30px;
+    height: 70px;
+    z-index: 10;
     display:table-cell;
     vertical-align:middle;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
   
+.header .home{
+    pointer-events: none;
+    padding: 5px;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+}
+
+.header .home:hover{
+    background-color: var(--darker-accent-color)
+}
+
+.header .home:focus-within {
+    background-color: var(--focus-accent-color)
+}
+
 .header .logo{
-    max-width:22px;
-    filter: invert(var(--accent-svg-invert));
+    pointer-events: auto;
+    height: 60px;
     margin-right: 5px;
 }
-  
-.header .title {
-    font-family: "Roboto Black";
-    color: var(--accent-text-color);
-    font-size: 18px;
+
+.accent-invert {
+    filter: invert(var(--accent-icon-invert));
+}
+
+.accent-invert::selection {
+    background: var(--selection-color-accent-icon-invert);
+}
+
+.invert {
+    filter: invert(var(--icon-invert));
+}
+
+.invert::selection {
+    background: var(--selection-color-icon-invert);
+}
+
+::selection {
+    background: var(--selection-color);
+    color: white;
 }
 
 .modpage {
-    margin-top: 20px;
+    margin-top: 90px;
     margin-bottom: 20px;
 }
 
@@ -161,7 +200,7 @@ body{
     filter: brightness(60%);
 }
 
-.mod .icon{
+.mod .icon-background .icon {
     border-radius: var(--rounded-radius);
     width: inherit;
     height: inherit;
@@ -177,7 +216,9 @@ body{
     margin-right: 10px;
 }
 
-.modcard .text-block{
+.modcard .loader {
+    border-radius: 100px;
+    height: 20px;
 }
 
 .modcard .section{
@@ -213,8 +254,7 @@ body{
     display: inline;
 }
 
-.modcard .stat img {
-    filter: invert(var(--icon-invert));
+.modcard .stat .icon {
     padding-right: 2px;
     width: 24px;
 }
@@ -323,7 +363,6 @@ a.subtle:focus{
 }
 
 .button img{
-    filter: invert(100%);
     margin-right: 4px;
 }
 
@@ -344,10 +383,6 @@ a.subtle:focus{
 
 #loading-text {
     color: var(--body-color);
-}
-
-#loading-text img {
-    filter: invert(var(--icon-invert));
 }
 
 #failed-text {
@@ -411,7 +446,6 @@ a.subtle:focus{
 .modal-header .exit-section .exit-icon {
     width: 18px;
     height: 18px;
-    filter: invert(var(--icon-invert));
 }
 
 .modal-header .icon {

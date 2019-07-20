@@ -10,19 +10,38 @@
 </head>
 
 <body id="light" onload="addMods()">
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script>
+        if(!Cookies.get('theme')){
+            Cookies.set('theme', 'light')
+        }
+        if(Cookies.get('theme')){
+            document.body.id=Cookies.get('theme')
+        }
+    </script>
     <div class="header">
-        <button style="float: right" type="button" class="btn btn-primary"
-            onclick="localStorage.setItem('theme', (localStorage.getItem('theme') || 'dark') === 'dark' ? 'light' : 'dark'); localStorage.getItem('theme') === 'dark' ? document.querySelector('body').id='dark' : document.querySelector('body').id='light'">
-            Theme toggle
-        </button>
-        <img class="logo" src="prospector.svg">
-        <div class="title">propskepteor.github.io</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-auto home">
+                    <a href="/"><img class="logo accent-invert" src="modmenuonlineLogo.svg"></a>
+                </div>
+                <div class="col">
+
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary"
+                        onclick="localStorage.setItem('theme', (localStorage.getItem('theme') || 'dark') === 'dark' ? 'light' : 'dark'); localStorage.getItem('theme') === 'dark' ? document.querySelector('body').id='dark' : document.querySelector('body').id='light'">
+                        Theme toggle
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <section class="scrollfix">
         <div id="mod-holder" class="modpage container">
             <div id="loading-text" class="status-text">
-                <img src="loading.gif">
+                <img class="invert" src="loading.gif">
                 Loading projects...
             </div>
             <div id="failed-text" class="status-text hidden">
@@ -54,11 +73,11 @@
                                 <div class="section d-none d-md-block">
                                     <div class="centered-section width-170 padding-left padding-right">
                                         <div class="stat">
-                                            <img src="download.svg">
+                                            <img class="icon invert" src="download.svg">
                                             <h5 class="line-clamp-1">{$downloadCount} Downloads</h5>
                                         </div>
                                         <div class="stat">
-                                            <img src="recent.svg">
+                                            <img class="icon invert" src="recent.svg">
                                             <h5 class="line-clamp-1">Updated {$updateDate}</h5>
                                         </div>
                                     </div>
@@ -68,7 +87,7 @@
                                 <div class="section d-none d-md-block">
                                     <div class="centered-section download-section padding-left width-170">
                                         <a class="button line-clamp-1" href="{$downloadUrl}">
-                                            <img src="download.svg">
+                                            <img class="accent-invert" src="download.svg">
                                             Download
                                         </a>
                                         <h5 class="info">{$downloadGameVersion}</h5>
@@ -82,11 +101,11 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm text-center stat align-middle">
-                                <img src="download.svg">
+                                <img class="icon invert" src="download.svg">
                                 <h5>{$downloadCount} Downloads</h5>
                             </div>
                             <div class="col-sm text-center stat align-middle">
-                                <img src="recent.svg">
+                                <img class="icon invert" src="recent.svg">
                                 <h5>Updated {$updateDate}</h5>
                             </div>
                             <div class="col-sm text-center download-section">
@@ -113,7 +132,7 @@
                         <h5 class="modal-title">{$modname}</h5>
                         <div class="exit-section">
                             <button type="button" class="exit" data-dismiss="modal">
-                                <img class="exit-icon" src="exit.svg">
+                                <img class="exit-icon invert" src="exit.svg">
                             </button>
                         </div>
                     </div>
