@@ -12,11 +12,11 @@
 <body id="light" onload="addMods()">
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
-        if(!Cookies.get('theme')){
+        if (!Cookies.get('theme')) {
             Cookies.set('theme', 'dark')
         }
-        if(Cookies.get('theme')){
-            document.body.id=Cookies.get('theme')
+        if (Cookies.get('theme')) {
+            document.body.id = Cookies.get('theme')
         }
     </script>
     <div class="header">
@@ -29,9 +29,8 @@
 
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary"
-                        onclick="localStorage.setItem('theme', (localStorage.getItem('theme') || 'dark') === 'dark' ? 'light' : 'dark'); localStorage.getItem('theme') === 'dark' ? document.querySelector('body').id='dark' : document.querySelector('body').id='light'">
-                        Theme toggle
+                    <button type="button" class="btn btn-primary" onclick="toggleTheme()">
+                        Toggle Theme
                     </button>
                 </div>
             </div>
@@ -182,7 +181,7 @@
                                 openOrCreateModal(window.location.hash)
                             }
                             window.onhashchange = function () {
-                                if (window.location.hash == '') {
+                                if (window.location.hash === '') {
                                     $('.modal.show .exit-section .exit').click();
                                 } else {
                                     openOrCreateModal(window.location.hash)
@@ -233,7 +232,7 @@
                 game = data.gameName
                 var defaultFileId = data.defaultFileId
                 for (var file of data.latestFiles) {
-                    if (file.id == defaultFileId) {
+                    if (file.id === defaultFileId) {
                         downloadUrl = file.downloadUrl
                         downloadGameVersion = file.gameVersion[file.gameVersion.length - 1]
                         break;
@@ -315,6 +314,18 @@
             var failedText = document.getElementById("failed-text");
             failedText.innerHTML = failedText.innerHTML.replace(/{\$error}/g, error)
             failedText.classList.remove("hidden");
+        }
+        function toggleTheme() {
+            var theme = Cookies.get('theme')
+            if (!theme) {
+                Cookies.set('theme', 'light')
+            } else {
+                if (theme === "dark") {
+                    Cookies.set('theme', 'light')
+                } else if (theme === "light") {
+                    Cookies.set('theme', 'dark')
+                }
+            }
         }
     </script>
 </footer>
