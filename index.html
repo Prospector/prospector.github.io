@@ -2,7 +2,27 @@
 <html lang="en">
 
 <head>
-    <title>prospector.github.io</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
+    <link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+    <link rel="apple-touch-icon" href="/favicon-57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="/favicon-144.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <title>Mod Menu: Online</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -13,7 +33,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
         if (!Cookies.get('theme')) {
-            Cookies.set('theme', 'dark')
+            Cookies.set('theme', 'light')
         }
         if (Cookies.get('theme')) {
             document.body.id = Cookies.get('theme')
@@ -23,10 +43,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-auto home">
-                    <a href="/"><img class="logo accent-invert" src="modmenuonlineLogo.svg"></a>
+                    <a id="home-link" href="#"><img class="logo accent-invert" src="modmenuonlineLogo.svg"></a>
                 </div>
                 <div class="col">
-
+                    button
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-primary" onclick="toggleTheme()">
@@ -153,6 +173,12 @@
         let curseData = new Map()
 
         function addMods() {
+            var homeLink = document.getElementById("home-link");
+            homeLink.onclick = function () {
+                homeLink.blur()
+                $('html, body').animate({ scrollTop: 0 }, 200);
+                return false
+            }
             fetch('https://raw.githubusercontent.com/Prospector/modcollector/master/mods.json')
                 .then(res => res.json())
                 .then((out) => {
