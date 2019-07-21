@@ -42,16 +42,17 @@
     <div class="header">
         <div class="container">
             <div class="row">
-                <div class="col-auto home">
-                    <a id="home-link" href="#"><img class="logo accent-invert" src="modmenuonlineLogo.svg"></a>
-                </div>
+                <a id="home-link" href="#" class="col-auto home">
+                    <img class="logo accent-invert" src="modmenuonlineLogo.svg">
+                </a>
                 <div class="col">
-                    
+
                 </div>
-                <div class="col-auto">
-                    <button type="button" class="btn btn-primary" onclick="toggleTheme()">
-                        Toggle Theme
-                    </button>
+                <div class="col-auto align-self-center">
+                    <a class="button white-outline hidden" id="theme-button" href="#">
+                        <img id="theme-icon" class="accent-invert" src="dark.svg">
+                        <span id="theme-text">Dark</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -61,11 +62,11 @@
         <div id="mod-holder" class="modpage container">
             <div id="loading-text" class="status-text">
                 <img class="invert" src="loading.gif">
-                Loading projects...
+                Loading...
             </div>
             <div id="failed-text" class="status-text hidden">
                 <img src="fail.svg">
-                Failed to load projects
+                Failed to load
                 <p>{$error}</p>
             </div>
             <div id="modcard-template" class="modcard mod hidden">
@@ -173,11 +174,23 @@
         let curseData = new Map()
 
         function addMods() {
-            var homeLink = document.getElementById("home-link");
-            homeLink.onclick = function () {
-                homeLink.blur()
-                $('html, body').animate({ scrollTop: 0 }, 200);
-                return false
+            try {
+                var homeLink = document.getElementById("home-link");
+                homeLink.onclick = function () {
+                    homeLink.blur()
+                    $('html, body').animate({ scrollTop: 0 }, 200);
+                    return false
+                }
+                var themeButton = document.getElementById("theme-button");
+                themeButton.onclick = function () {
+                    themeButton.blur()
+                    toggleTheme()
+                    return false
+                }
+                updateThemeButton()
+            } catch (err) {
+                failedToLoad("Error initializing page: [" + err + "]")
+                console.error(err)
             }
             fetch('https://raw.githubusercontent.com/Prospector/modcollector/master/mods.json')
                 .then(res => res.json())
@@ -334,7 +347,7 @@
             div.id = modalId
             document.getElementById("modal-container").appendChild(div)
         }
-        function failedToLoad(error) {
+        function failedToLoad(error, phase) {
             var loadingText = document.getElementById("loading-text");
             loadingText.classList.add("hidden");
             var failedText = document.getElementById("failed-text");
@@ -354,6 +367,17 @@
             }
             if (Cookies.get('theme')) {
                 document.body.id = Cookies.get('theme')
+            }
+            updateThemeButton()
+        }
+        function updateThemeButton() {
+            document.getElementById("theme-icon").src = document.body.id + ".svg"
+            document.getElementById("theme-text").innerText = document.body.id
+            var themeButton = document.getElementById("theme-button")
+            if (themeButton.classList.contains("hidden")) {
+                themeButton.classList.add("from-js")
+                themeButton.classList.remove("hidden")
+                setTimeout(() => themeButton.classList.add("animate"), 0)
             }
         }
     </script>

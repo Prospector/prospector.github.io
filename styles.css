@@ -72,7 +72,6 @@ body{
 }
   
 .header .home{
-    pointer-events: none;
     padding: 5px;
     background-color: transparent;
     transition: background-color 0.2s ease;
@@ -82,12 +81,11 @@ body{
     background-color: var(--darker-accent-color)
 }
 
-.header .home:focus-within {
+.header .home:focus {
     background-color: var(--focus-accent-color)
 }
 
 .header .logo{
-    pointer-events: auto;
     height: 60px;
     margin-right: 5px;
 }
@@ -295,7 +293,7 @@ body{
     margin-top: 5px;
 }
 
-.modcard .download-section .button img{
+.button img{
     width: 24px;
 }
 
@@ -345,7 +343,18 @@ a.subtle:focus{
     padding-right: 10px;
     padding-top: 7px;
     padding-bottom: 7px;
-    transition: background-color 0.4s, box-shadow 0.4s;
+    transition: background-color 0.4s, box-shadow 0.4s, opacity 0.4s ease;
+}
+
+#theme-button.button{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.button.white-outline {
+    border: solid 2px white;
 }
 
 .button:hover{
