@@ -293,10 +293,6 @@ body{
     margin-top: 5px;
 }
 
-.button img{
-    width: 24px;
-}
-
 a {
     color: var(--accent-color);
     transition: color 0.4s, text-shadow 0.4s;
@@ -373,6 +369,7 @@ a.subtle:focus{
 
 .button img{
     margin-right: 4px;
+    width: 24px;
 }
 
 .status-text {
