@@ -44,8 +44,11 @@
     --selection-color-accent-icon-invert: rgba(153, 112, 0, 0.733);
 }
 
-.scrollfix {
+.content {
     margin-left: calc(100vw - 100%); 
+    min-height: calc(100vh);
+    padding-top: 90px;
+    padding-bottom: 20px;
 }
 
 body{
@@ -109,11 +112,6 @@ body{
 ::selection {
     background: var(--selection-color);
     color: white;
-}
-
-.modpage {
-    margin-top: 90px;
-    margin-bottom: 20px;
 }
 
 .modcard {
@@ -322,6 +320,18 @@ a.subtle:focus{
     color: var(--focus-accent-color);
 }
 
+a.subtle {
+    color: var(--accent-link-color);
+}
+
+a.subtle:hover{
+    color: var(--darker-accent-link-color);
+}
+
+a.subtle:focus{
+    color: var(--focus-accent-color);
+}
+
 .animate{
   transform: scale(1);
   opacity: 1;
@@ -472,4 +482,15 @@ a.subtle:focus{
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.footer{
+    text-align: center;
+    background-color: var(--accent-color);
+    padding: 40px;
+    color: var(--accent-text-color)
+}
+
+.footer #source-button{
+    margin-left: 10px;
 }
