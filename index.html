@@ -1,393 +1,244 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="196x196" href="/favicon-192.png">
-    <link rel="icon" type="image/png" sizes="160x160" href="/favicon-160.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
-    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-    <link rel="apple-touch-icon" href="/favicon-57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon-114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon-72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon-144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon-60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon-120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon-76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon-152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
-    <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta name="msapplication-TileImage" content="/favicon-144.png">
-    <meta name="msapplication-config" content="/browserconfig.xml">
-    <title>Mod Menu: Online</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
+    <title>Prospector's resume</title>
 </head>
 
-<body id="light" onload="addMods()">
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <script>
-        if (!Cookies.get('theme')) {
-            Cookies.set('theme', 'light')
-        }
-        if (Cookies.get('theme')) {
-            document.body.id = Cookies.get('theme')
-        }
-    </script>
-    <div class="header">
-        <div class="container">
-            <div class="row">
-                <a id="home-link" href="#" class="col-auto home">
-                    <img class="logo accent-invert" src="modmenuonlineLogo.svg">
-                </a>
-                <div class="col">
-
-                </div>
-                <div class="col-auto align-self-center">
-                    <a class="button white-outline hidden" id="theme-button" href="#">
-                        <img id="theme-icon" class="accent-invert" src="dark.svg">
-                        <span id="theme-text">Dark</span>
+<body>
+    <div class="container">
+        <div class="contents">
+            <div class="card header">
+                <img src="logo.svg" height="64" width="64" />
+                <h1>Prospector's Portfolio</h1>
+            </div>
+            <div class="card">
+                <h2>Bio</h2>
+                <p>Hi, my name is Prospector and below you will find a list of my education and notable projects that 
+                    I have worked on. I primarily specialize in frontend development, but I do backend work too. 
+                    I excel in collaborating with others and helping to create things that no one person could accomplish alone.
+                    I also do graphic design which helps me greatly in many of my projects, whether it is in creating assets for
+                    my Minecraft mods, creating logos and branding for my projects, or doing frontend web design. 
+                </p>
+                <div class="badges">
+                    <a class="badge cf" href="https://www.curseforge.com/members/prospectordev/projects" target="_blank">
+                        <img src="badge/cf.svg"/>
+                        <span>
+                            CurseForge
+                        </span>
+                    </a>
+                    <a class="badge mr" href="https://modrinth.com/user/Prospector" target="_blank">
+                        <img src="badge/mr.svg"/>
+                        <span>
+                            Modrinth
+                        </span>
+                    </a>
+                    <a class="badge gh" href="https://github.com/Prospector" target="_blank">
+                        <img src="badge/gh.svg"/>
+                        <span>
+                            GitHub
+                        </span>
                     </a>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <section class="content">
-        <div id="mod-holder" class="modpage container">
-            <div id="loading-text" class="status-text">
-                <img class="invert" src="loading.gif">
-                Loading...
-            </div>
-            <div id="failed-text" class="status-text hidden">
-                <img src="fail.svg">
-                Failed to load
-                <p>{$error}</p>
-            </div>
-            <div id="modcard-template" class="modcard mod hidden">
-                <div class="main-pane">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-auto">
-                                <a class="icon-background right-margin" href="#{$id}">
-                                    <img class="icon" src="{$icon}">
+            <div class="card">
+                <h2>Education</h2>
+                <ul class="timeline">
+                    <li class="item">
+                        <img class="icon" src="icon/csuc.png" />
+                        <div>
+                            <h3>California State University, Chico <span class="years">2020-present</span></h3>
+                            <p>I'm a Computer Science student at California State University, Chico.</p>
+                            <div class="badges">
+                                <a class="badge" href="https://www.csuchico.edu/" target="_blank">
+                                    <span>
+                                        Website
+                                    </span>
                                 </a>
                             </div>
-                            <div class="col">
-                                <div class="text-block right-margin">
-                                    <a href="#{$id}">
-                                        <h3 class="inline bold line-clamp-1">{$modname}</h3>
-                                    </a>
-                                    <h5 id="authors" class="inline line-clamp-1">by
-                                        <a class="author subtle" href="{$authorLink}" target="_blank">{$authorName}</a>
-                                    </h5>
-                                    <div class="summary line-clamp-2">{$summary}</div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="section d-none d-md-block">
-                                    <div class="centered-section width-170 padding-left padding-right">
-                                        <div class="stat">
-                                            <img class="icon invert" src="download.svg">
-                                            <h5 class="line-clamp-1">{$downloadCount} Downloads</h5>
-                                        </div>
-                                        <div class="stat">
-                                            <img class="icon invert" src="recent.svg">
-                                            <h5 class="line-clamp-1">Updated {$updateDate}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <div class="section d-none d-md-block">
-                                    <div class="centered-section download-section padding-left width-170">
-                                        <a class="button line-clamp-1" href="{$downloadUrl}">
-                                            <img class="accent-invert" src="download.svg">
-                                            Download
-                                        </a>
-                                        <h5 class="info">{$downloadGameVersion}</h5>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="lower-pane d-block d-md-none">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm text-center stat align-middle">
-                                <img class="icon invert" src="download.svg">
-                                <h5>{$downloadCount} Downloads</h5>
-                            </div>
-                            <div class="col-sm text-center stat align-middle">
-                                <img class="icon invert" src="recent.svg">
-                                <h5>Updated {$updateDate}</h5>
-                            </div>
-                            <div class="col-sm text-center download-section">
-                                <a href="{$downloadUrl}">
-                                    <div class="button line-clamp-1">
-                                        <img src="download.svg">
-                                        Download
-                                    </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card">
+                <h2>Experience</h2>
+                <ul class="timeline">
+                    <li class="item">
+                        <img class="icon" src="icon/tr.png" />
+                        <div>
+                            <h3>Tech Reborn Developer <span class="years">2016–2020</span></h3>
+                            <p>I started contributing to the Minecraft mod Tech Reborn in 2016 and quickly 
+                                became a critical part of the development team for the project before leaving the project in 2020. As
+                            of September 2022, Tech Reborn has over <strong>22 million downloads</strong>.</p>
+                            <div class="badges">
+                                <a class="badge cf" href="https://www.curseforge.com/minecraft/mc-mods/techreborn" target="_blank">
+                                    <img src="badge/cf.svg"/>
+                                    <span>
+                                        CurseForge
+                                    </span>
                                 </a>
-                                <h5 class="info">{$downloadGameVersion}</h5>
+                                <a class="badge gh" href="https://github.com/TechReborn/TechReborn" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <div id="modal-container"></div>
-        <div class="modal fade" id="template-modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content mod">
-                    <div class="modal-header">
-                        <img class="icon" src="{$icon}">
-                        <h5 class="modal-title">{$modname}</h5>
-                        <div class="exit-section">
-                            <button type="button" class="exit" data-dismiss="modal">
-                                <img class="exit-icon invert" src="exit.svg">
-                            </button>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/traverse.png" />
+                        <div>
+                            <h3>Traverse Creator <span class="years">2017–present</span></h3>
+                            <p>I created the Minecraft mod Traverse in 2017 and since then, it has been downloaded over <strong>25 million</strong> times across both the Forge and Fabric projects.</p>
+                            <div class="badges">
+                                <a class="badge cf" href="https://www.curseforge.com/minecraft/mc-mods/traverse" target="_blank">
+                                    <img src="badge/cf.svg"/>
+                                    <span>
+                                        Fabric CurseForge
+                                    </span>
+                                </a>
+                                <a class="badge cf" href="https://www.curseforge.com/minecraft/mc-mods/traverse-reforged" target="_blank">
+                                    <img src="badge/cf.svg"/>
+                                    <span>
+                                        Forge CurseForge
+                                    </span>
+                                </a>
+                                <a class="badge mr" href="https://modrinth.com/mod/traverse" target="_blank">
+                                    <img src="badge/mr.svg"/>
+                                    <span>
+                                        Fabric Modrinth
+                                    </span>
+                                </a>
+                                <a class="badge gh" href="https://github.com/TerraformersMC/Traverse" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div id="{$id}-description" class="modal-body description">
-
-                    </div>
-                </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/fabric.png" />
+                        <div>
+                            <h3>FabricMC Community Administrator <span class="years">2018–2020</span></h3>
+                            <p>I was an administrator for the Fabric Minecraft mod loader and toolchain's discord server for 3 years from the public release of Fabric until mid-2020. I played a critical role in helping shape the project in its early days before its public launch in December of 2018.</p>
+                            <div class="badges">
+                                <a class="badge" href="https://fabricmc.net/" target="_blank">
+                                    <span>
+                                        Website
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/modmenu.png" />
+                        <div>
+                            <h3>Mod Menu Creator <span class="years">2018–present</span></h3>
+                            <p>I created the Mod Menu mod for Minecraft in 2018 and it has accumulated over <strong>12 million</strong> total downloads.</p>
+                            <div class="badges">
+                                <a class="badge cf" href="https://www.curseforge.com/minecraft/mc-mods/modmenu" target="_blank">
+                                    <img src="badge/cf.svg"/>
+                                    <span>
+                                        CurseForge
+                                    </span>
+                                </a>
+                                <a class="badge mr" href="https://modrinth.com/mod/modmenu" target="_blank">
+                                    <img src="badge/mr.svg"/>
+                                    <span>
+                                        Modrinth
+                                    </span>
+                                </a>
+                                <a class="badge gh" href="https://github.com/TerraformersMC/ModMenu" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/modfest.png" />
+                        <div>
+                            <h3>ModFest Founder <span class="years">2019–present</span></h3>
+                            <p>I founded ModFest in 2019 as a way to drive the creation of new Minecraft mods for the newly launched Fabric mod loader. Since then, ModFest has hosted five subsequent modding events and an in-game modded Minecraft convention called Blanketcon 22 with hundreds of participants in total.</p>
+                            <div class="badges">
+                                <a class="badge" href="https://modfest.net/" target="_blank">
+                                    <span>
+                                        Website
+                                    </span>
+                                </a>
+                                <a class="badge" href="https://legacy.modfest.net/1.17/" target="_blank">
+                                    <span>
+                                        Legacy Website
+                                    </span>
+                                </a>
+                                <a class="badge gh" href="https://github.com/modfest" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/terraformers.png" />
+                        <div>
+                            <h3>TerraformersMC Co-Founder <span class="years">2019–present</span></h3>
+                            <p>I founded the TerraformersMC Minecraft modding team in 2019 to collaborate with coderbot16 to ensure Traverse and Terrestria, two world generation-based mods for the Fabric mod loader worked well together. Since its founding, TerraformersMC has expanded to 11 people with 7 projects in active development.</p>
+                            <div class="badges">
+                                <a class="badge gh" href="https://github.com/TerraformersMC/" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/modrinth.png" />
+                        <div>
+                            <h3>Modrinth Developer <span class="years">2020–present</span></h3>
+                            <p>I began contributing to Modrinth as soon as I had learned about it in 2020, and immediately became a key frontend developer for the project, re-designing the website almost entirely to be more aesthetically pleasing and easier to use.</p>
+                            <div class="badges">
+                                <a class="badge mr" href="https://modrinth.com/" target="_blank">
+                                    <img src="badge/mr.svg"/>
+                                    <span>
+                                        Website
+                                    </span>
+                                </a>
+                                <a class="badge gh" href="https://github.com/modrinth" target="_blank">
+                                    <img src="badge/gh.svg"/>
+                                    <span>
+                                        GitHub
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <img class="icon" src="icon/quilt.png" />
+                        <div>
+                            <h3>QuiltMC Co-Founder <span class="years">2021</span></h3>
+                            <p>I helped to found the QuiltMC mod loader and toolchain for Minecraft with a number of other developers who formerly worked on the FabricMC project. I left the project quickly after, but I was instrumental in many decisions made before and during the public launch of the project.</p>
+                            <div class="badges">
+                                <a class="badge" href="https://quiltmc.org/en/" target="_blank">
+                                    <span>
+                                        Website
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>  
-    <div class="footer">
-            Site designed by Prospector
-            <a id="source-button" class="button white-outline " href="https://github.com/Prospector/prospector.github.io" target="_blank">
-                <img id="theme-icon" class="accent-invert" src="github.svg">
-                View source on GitHub
-            </a>
     </div>
 </body>
-
-<footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-        let projectInfo
-        let curseData = new Map()
-
-        function addMods() {
-            try {
-                var homeLink = document.getElementById("home-link");
-                homeLink.onclick = function () {
-                    homeLink.blur()
-                    $('html, body').animate({ scrollTop: 0 }, 200);
-                    return false
-                }
-                var themeButton = document.getElementById("theme-button");
-                themeButton.onclick = function () {
-                    themeButton.blur()
-                    toggleTheme()
-                    return false
-                }
-                updateThemeButton()
-            } catch (err) {
-                failedToLoad("Error initializing page: [" + err + "]")
-                console.error(err)
-            }
-            fetch('https://raw.githubusercontent.com/Prospector/modcollector/master/mods.json')
-                .then(res => res.json())
-                .then((out) => {
-                    projectInfo = out
-                    var curseIds = []
-                    var idMap = new Map()
-                    for (var i = 0; i < out.length; i++) {
-                        curseIds[i] = out[i].curseforge
-                        idMap.set(out[i].curseforge, out[i].id)
-                    }
-                    fetch('https://curse.nikky.moe/graphql', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                        },
-                        body: JSON.stringify({ query: '{ addons(gameId: 432, section: "Mods", idList: [' + curseIds.toString() + ']) { gameName id name summary authors { name, url } dateModified downloadCount attachments(isDefault: true) { thumbnailUrl } defaultFileId latestFiles { id gameVersion downloadUrl releaseType } } }' })
-                    })
-                        .then(r => r.json())
-                        .then(data => {
-                            for (const addon of data.data.addons) {
-                                curseData.set(idMap.get(addon.id), addon)
-                            }
-                            addMod(out[0], 0)
-                            if (window.location.hash) {
-                                openOrCreateModal(window.location.hash)
-                            }
-                            window.onhashchange = function () {
-                                if (window.location.hash === '') {
-                                    $('.modal.show .exit-section .exit').click();
-                                } else {
-                                    openOrCreateModal(window.location.hash)
-                                }
-                            }
-                        }).catch(err => {
-                            failedToLoad("Error loading curse data: [" + err + "]")
-                            console.error(err)
-                        });
-                }).catch(err => {
-                    failedToLoad("Error loading mods.json: [" + err + "]")
-                    console.error(err)
-                })
-        }
-        function addMod(mod, i) {
-            var id = mod.id;
-            var div = document.createElement("div")
-            var template = document.getElementById("modcard-template");
-            div.innerHTML = template.innerHTML
-            div.classList = template.classList
-            div.classList.remove("hidden")
-            fillData(div, id)
-            div.classList.add("from-js")
-            var loadingText = document.getElementById("loading-text");
-            loadingText.classList.add("hidden");
-            document.getElementById("mod-holder").appendChild(div)
-            setTimeout(() => div.classList.add("animate"), 50)
-            var next = i + 1
-            if (projectInfo[next] != null) {
-                setTimeout(() => addMod(projectInfo[next], next), 40)
-            }
-        }
-
-        function fillData(div, id) {
-            var name = id
-            var icon, summary, authorName, authorLink, downloadCount, game, downloadUrl, downloadGameVersion, updateDate
-            if (curseData.has(id)) {
-                var data = curseData.get(id)
-                name = data.name
-                summary = data.summary
-                for (var j = 0; j < data.attachments.length; j++) {
-                    icon = data.attachments[0].thumbnailUrl
-                }
-                authorName = data.authors[0].name
-                authorLink = data.authors[0].url
-                downloadCount = data.downloadCount
-                updateDate = new Date(data.dateModified)
-                game = data.gameName
-                var defaultFileId = data.defaultFileId
-                for (var file of data.latestFiles) {
-                    if (file.id === defaultFileId) {
-                        downloadUrl = file.downloadUrl
-                        downloadGameVersion = file.gameVersion[file.gameVersion.length - 1]
-                        break;
-                    }
-                }
-            }
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            var updateDateFormatted = updateDate.toLocaleDateString('en-US', options)
-            div.innerHTML = div.innerHTML
-                .replace(/{\$modname}/g, name)
-                .replace(/{\$icon}/g, icon)
-                .replace(/{\$summary}/g, summary)
-                .replace(/{\$authorName}/g, authorName)
-                .replace(/{\$authorLink}/g, authorLink)
-                .replace(/{\$downloadCount}/g, shortenNumber(downloadCount).toLocaleString('en-US'))
-                .replace(/{\$updateDate}/g, updateDateFormatted)
-                .replace(/{\$game}/g, game)
-                .replace(/{\$downloadUrl}/g, downloadUrl)
-                .replace(/{\$downloadGameVersion}/g, downloadGameVersion)
-                .replace(/{\$id}/g, id)
-        }
-        function shortenNumber(value) {
-            let newValue = value
-            const suffixes = ["", "K", "M", "B", "T"]
-            let suffixNum = 0
-            while (newValue >= 1000) {
-                newValue /= 1000
-                suffixNum++
-            }
-
-            newValue = newValue.toPrecision(3)
-            newValue = parseFloat(newValue)
-
-            if (suffixNum > 4) {//give up, accept this number is ridiculous
-                return value;
-            }
-            newValue += suffixes[suffixNum]
-            return newValue
-        }
-        function openOrCreateModal(hash) {
-            var modalId = "modal-" + hash.substring(1, hash.length)
-            if (!document.getElementById(modalId)) {
-                createModal(modalId)
-            }
-            openModal(modalId)
-        }
-        function openModal(modalId) {
-            $("#" + modalId).modal('show')
-            $("#" + modalId).on('hide.bs.modal', function (e) {
-                if (window.history.replaceState) {
-                    window.history.replaceState({}, null, window.location.href.split("#")[0])
-                }
-            })
-        }
-        function createModal(modalId) {
-            var id = modalId.split("modal-")[1]
-            var div = document.createElement("div")
-            var template = document.getElementById("template-modal")
-            div.classList = template.classList
-            div.tabIndex = template.tabIndex
-            div.setAttribute("role", template.getAttribute("role"));
-            div.setAttribute("aria-labelledby", template.getAttribute("aria-labelledby"));
-            div.setAttribute("aria-hidden", template.getAttribute("aria-hidden"));
-            div.innerHTML = template.innerHTML
-            fillData(div, id)
-            fetch('https://curse.nikky.moe/api/addon/' + curseData.get(id).id + '/description').then((res) => {
-                return res.text();
-            }).then(out => {
-                var desc = document.createElement("div")
-                desc.innerHTML = out
-                document.getElementById(id + "-description").appendChild(desc)
-            })
-            div.id = modalId
-            document.getElementById("modal-container").appendChild(div)
-        }
-        function failedToLoad(error, phase) {
-            var loadingText = document.getElementById("loading-text");
-            loadingText.classList.add("hidden");
-            var failedText = document.getElementById("failed-text");
-            failedText.innerHTML = failedText.innerHTML.replace(/{\$error}/g, error)
-            failedText.classList.remove("hidden");
-        }
-        function toggleTheme() {
-            var theme = Cookies.get('theme')
-            if (!theme) {
-                Cookies.set('theme', 'light')
-            } else {
-                if (theme === "dark") {
-                    Cookies.set('theme', 'light')
-                } else if (theme === "light") {
-                    Cookies.set('theme', 'dark')
-                }
-            }
-            if (Cookies.get('theme')) {
-                document.body.id = Cookies.get('theme')
-            }
-            updateThemeButton()
-        }
-        function updateThemeButton() {
-            document.getElementById("theme-icon").src = document.body.id + ".svg"
-            document.getElementById("theme-text").innerText = document.body.id
-            var themeButton = document.getElementById("theme-button")
-            if (themeButton.classList.contains("hidden")) {
-                themeButton.classList.add("from-js")
-                themeButton.classList.remove("hidden")
-                setTimeout(() => themeButton.classList.add("animate"), 0)
-            }
-        }
-    </script>
-</footer>
 
 </html>
